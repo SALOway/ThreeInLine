@@ -7,5 +7,8 @@ using UnityEngine;
 /// </summary>
 public class Tile : MonoBehaviour
 {
-
+    /// <summary>
+    /// Position of tile in grid
+    /// </summary>
+    public Vector3Int GridPosition;
 }
