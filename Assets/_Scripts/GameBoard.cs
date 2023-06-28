@@ -36,4 +36,26 @@ public class GameBoard : MonoBehaviour
     {
         _tilesInGrid = tiles;
     }
+
+    public void SwapTilesAt(Vector3Int firstTileGridPosition, Vector3Int secondTileGridPosition)
+    {
+        Tile firstTile = GetTile(firstTileGridPosition);
+        Tile secondTile = GetTile(secondTileGridPosition);
+
+        (_tilesInGrid[firstTileGridPosition.x, firstTileGridPosition.y], _tilesInGrid[secondTileGridPosition.x, secondTileGridPosition.y]) = (_tilesInGrid[secondTileGridPosition.x, secondTileGridPosition.y], _tilesInGrid[firstTileGridPosition.x, firstTileGridPosition.y]);
+
+        firstTile.GridPosition = secondTileGridPosition;
+        secondTile.GridPosition = firstTileGridPosition;
+    }
+
+    public void SwapTiles(Tile firstTile, Tile secondTile)
+    {
+        Vector3Int firstTileGridPosition = firstTile.GridPosition;
+        Vector3Int secondTileGridPosition = secondTile.GridPosition;
+
+        (_tilesInGrid[firstTileGridPosition.x, firstTileGridPosition.y], _tilesInGrid[secondTileGridPosition.x, secondTileGridPosition.y]) = (_tilesInGrid[secondTileGridPosition.x, secondTileGridPosition.y], _tilesInGrid[firstTileGridPosition.x, firstTileGridPosition.y]);
+        
+        firstTile.GridPosition = secondTileGridPosition;
+        secondTile.GridPosition = firstTileGridPosition;
+    }
 }
