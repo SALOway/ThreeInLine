@@ -27,7 +27,6 @@ public class GameBoard : MonoBehaviour
         }
         return tile;
     }
-
     /// <summary>
     /// Set current tiles on game board
     /// </summary>
@@ -36,7 +35,11 @@ public class GameBoard : MonoBehaviour
     {
         _tilesInGrid = tiles;
     }
-
+    /// <summary>
+    /// Swaps tiles at given positions in grid
+    /// </summary>
+    /// <param name="firstTileGridPosition"></param>
+    /// <param name="secondTileGridPosition"></param>
     public void SwapTilesAt(Vector3Int firstTileGridPosition, Vector3Int secondTileGridPosition)
     {
         Tile firstTile = GetTile(firstTileGridPosition);
@@ -47,7 +50,11 @@ public class GameBoard : MonoBehaviour
         firstTile.GridPosition = secondTileGridPosition;
         secondTile.GridPosition = firstTileGridPosition;
     }
-
+    /// <summary>
+    /// Swaps tiles in grid
+    /// </summary>
+    /// <param name="firstTile"></param>
+    /// <param name="secondTile"></param>
     public void SwapTiles(Tile firstTile, Tile secondTile)
     {
         Vector3Int firstTileGridPosition = firstTile.GridPosition;
