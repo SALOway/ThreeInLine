@@ -7,7 +7,7 @@ using UnityEngine.TestTools;
 
 namespace Tests
 {
-    public class GetTile_WhenCalled_GetTileAtGivenPositionInGrid
+    public class GetTile
     {
         GameBoard _gameBoard;
         Tile[,] _tilesReference;
