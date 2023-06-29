@@ -65,4 +65,94 @@ public class GameBoard : MonoBehaviour
         firstTile.GridPosition = secondTileGridPosition;
         secondTile.GridPosition = firstTileGridPosition;
     }
+
+
+    public List<List<Tile>> FindAllCombinations()
+    {
+        List<List<Tile>> allCombinations = new List<List<Tile>>();
+
+        for (int x = 0; x < _tilesInGrid.GetLength(0); x++)
+        {
+            allCombinations.AddRange(FindVerticalCombinationsAt(x));
+        }
+
+        for (int y = 0; y < _tilesInGrid.GetLength(1); y++)
+        {
+            allCombinations.AddRange(FindHorizontalCombinationsAt(y));
+        }
+
+        return allCombinations;
+    }
+
+    public List<List<Tile>> FindCombinationsAt(Vector3Int tileGridPosition)
+    {
+        List<List<Tile>> combinations = new List<List<Tile>>();
+
+        combinations.AddRange(FindVerticalCombinationsAt(tileGridPosition.x));
+        combinations.AddRange(FindHorizontalCombinationsAt(tileGridPosition.y));
+
+        return combinations;
+    }
+
+    private List<List<Tile>> FindHorizontalCombinationsAt(int y)
+    {
+        List<List<Tile>> horizontalCombinations = new List<List<Tile>>();
+
+        List<Tile> currentCombination = new List<Tile>();
+        Tile lastTile = null;
+        for (int x = 0; x < _tilesInGrid.GetLength(0); x++)
+        {
+            Vector3Int tileGridPosition = new Vector3Int(x, y, 0);
+            Tile tile = GetTile(tileGridPosition);
+            if (currentCombination.Count < 1) { currentCombination.Add(tile); lastTile = tile; continue; }
+            
+            if (tile.Type == lastTile.Type)
+            {
+                currentCombination.Add(tile);
+            }
+            else
+            {
+                if (currentCombination.Count >= 3)
+                {
+                    horizontalCombinations.Add(currentCombination);
+                }
+                currentCombination = new List<Tile>();
+            }
+
+            lastTile = tile;
+        }
+
+        return horizontalCombinations;
+    }
+
+    private List<List<Tile>> FindVerticalCombinationsAt(int x)
+    {
+        List<List<Tile>> verticalCombinations = new List<List<Tile>>();
+
+        List<Tile> currentCombination = new List<Tile>();
+        Tile lastTile = null;
+        for (int y = 0; y < _tilesInGrid.GetLength(1); y++)
+        {
+            Vector3Int tileGridPosition = new Vector3Int(x, y, 0);
+            Tile tile = GetTile(tileGridPosition);
+            if (currentCombination.Count < 1) { currentCombination.Add(tile); lastTile = tile; continue; }
+
+            if (tile.Type == lastTile.Type)
+            {
+                currentCombination.Add(tile);
+            }
+            else
+            {
+                if (currentCombination.Count >= 3)
+                {
+                    verticalCombinations.Add(currentCombination);
+                }
+                currentCombination = new List<Tile>();
+            }
+
+            lastTile = tile;
+        }
+
+        return verticalCombinations;
+    }
 }
