@@ -22,7 +22,7 @@ namespace Tests
         }
 
         [Test]
-        public void GetTile_WhenCalled_GetTileAtGivenPositionInGridSimplePasses()
+        public void GetTile_WhenCalled_GetTileAtGivenPositionInGrid()
         {
             _gameBoard.SetTiles(_tilesReference);
 
