@@ -9,7 +9,6 @@ namespace Tests
     public class SwapTiles
     {
         GameBoard _gameBoard;
-        Tile[,] _tilesReference;
         Vector3Int firstTilePosition;
         Vector3Int secondTilePosition;
 
@@ -18,8 +17,7 @@ namespace Tests
         public void Setup()
         {
             _gameBoard = TestingUtilites.CreateGameBoard();
-            _tilesReference = TestingUtilites.CreateTiles(3, 3);
-            _gameBoard.SetTiles(_tilesReference);
+            _gameBoard.SetTiles(TestingUtilites.CreateTiles(3, 3));
 
             firstTilePosition = new Vector3Int(1, 1, 0);
             secondTilePosition = new Vector3Int(0, 1, 0);
