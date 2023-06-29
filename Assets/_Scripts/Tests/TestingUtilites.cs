@@ -30,5 +30,15 @@ namespace Tests
             }
             return tiles;
         }
+        public static void SetTilesTypes(Tile[,] tiles, int[,] tilesTypes)
+        {
+            for (int x = 0; x < tiles.GetLength(0); x++)
+            {
+                for (int y = 0; y < tiles.GetLength(1); y++)
+                {
+                    tiles[x, y].Type = tilesTypes[x, y];
+                }
+            }
+        }
     }
 }
