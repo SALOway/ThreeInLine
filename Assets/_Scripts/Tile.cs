@@ -11,4 +11,9 @@ public class Tile : MonoBehaviour
     /// Position of tile in grid
     /// </summary>
     public Vector3Int GridPosition;
+
+    /// <summary>
+    /// Type of tile represented by int
+    /// </summary>
+    public int Type;
 }
