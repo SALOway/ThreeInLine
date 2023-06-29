@@ -10,32 +10,29 @@ namespace Tests
     {
         GameBoard _gameBoard;
         Tile[,] _tiles;
-        int[,] _tilesTypes;
-        List<List<Tile>> _expectedAllCombination;
+        List<List<int>> _expectedAllCombinations;
 
         [SetUp]
         public void Setup()
         {
-            _tiles = TestingUtilites.CreateTiles(3, 3);
-            _tilesTypes = new int[,]
+            int[,] tileLayout = new int[,]
             {
                 { 2, 3, 5 },
                 { 2, 4, 3 },
                 { 3, 3, 3 }
             };
-            TestingUtilites.SetTilesTypes(_tiles, _tilesTypes);
+
+            _tiles = TestingUtilites.CreateTiles(tileLayout);
             _gameBoard = TestingUtilites.CreateGameBoard();
             _gameBoard.SetTiles(_tiles);
 
-            _expectedAllCombination = new List<List<Tile>>();
-
-            List<Tile> combination = new List<Tile>()
+            _expectedAllCombinations = new List<List<int>>()
             {
-                _tiles[0,2],
-                _tiles[1,2],
-                _tiles[2,2]
+                new List<int>()
+                {
+                    tileLayout[2,0], tileLayout[2,1], tileLayout[2,2]
+                }
             };
-            _expectedAllCombination.Add(combination);
         }
 
 
@@ -44,15 +41,20 @@ namespace Tests
         {
             List<List<Tile>> allCombinations = _gameBoard.FindAllCombinations();
 
-            Assert.AreEqual(_expectedAllCombination.Count, allCombinations.Count, "Invalid number of combinations");
+            Assert.AreEqual(_expectedAllCombinations.Count, allCombinations.Count, "Invalid number of combinations");
 
             for (int i = 0; i < allCombinations.Count; i++)
             {
-                List<Tile> expectedCombination = _expectedAllCombination[i];
+                List<int> expectedCombination = _expectedAllCombinations[i];
                 List<Tile> combination = allCombinations[i];
+
+                Assert.AreEqual(expectedCombination.Count, combination.Count, $"Invalid combination length at index {i}");
+                
                 for (int j = 0; j < combination.Count; j++)
                 {
-                    Assert.AreEqual(expectedCombination[j], combination[j], "Tile mismatch at index " + i);
+                    int expectedType = expectedCombination[j];
+                    int type = combination[j].Type;
+                    Assert.AreEqual(expectedType, type, "Tile mismatch at index " + j);
                 }
             }
         }

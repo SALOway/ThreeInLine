@@ -14,31 +14,25 @@ namespace Tests
             GameBoard gameBoard = gameBoardObject.AddComponent<GameBoard>();
             return gameBoard;
         }
-        public static Tile[,] CreateTiles(int width, int height)
+        public static Tile[,] CreateTiles(int[,] tileLayout)
         {
+            int width = tileLayout.GetLength(1);
+            int height = tileLayout.GetLength(0);
+
             Tile[,] tiles = new Tile[width, height];
 
-            for (int x = 0; x < tiles.GetLength(0); x++)
+            for (int y = 0; y < height; y++)
             {
-                for (int y = 0; y < tiles.GetLength(1); y++)
+                for (int x = 0; x < width; x++)
                 {
                     GameObject tileObject = new GameObject();
                     Tile tile = tileObject.AddComponent<Tile>();
-                    tile.GridPosition = new Vector3Int(x, y, 0);
                     tiles[x, y] = tile;
+                    tile.Type = tileLayout[height - y - 1, x];
+                    tile.GridPosition = new Vector3Int(x, y, 0);
                 }
             }
             return tiles;
-        }
-        public static void SetTilesTypes(Tile[,] tiles, int[,] tilesTypes)
-        {
-            for (int x = 0; x < tiles.GetLength(0); x++)
-            {
-                for (int y = 0; y < tiles.GetLength(1); y++)
-                {
-                    tiles[x, y].Type = tilesTypes[x, y];
-                }
-            }
         }
     }
 }

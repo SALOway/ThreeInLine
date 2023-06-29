@@ -16,8 +16,14 @@ namespace Tests
         [SetUp]
         public void Setup()
         {
+            int[,] tileLayout = new int[,]
+            {
+                { 2, 3, 5 },
+                { 2, 4, 3 },
+                { 3, 3, 3 }
+            };
             _gameBoard = TestingUtilites.CreateGameBoard();
-            _tilesReference = TestingUtilites.CreateTiles(3, 3);
+            _tilesReference = TestingUtilites.CreateTiles(tileLayout);
             _tileGridPosition = new Vector3Int(2, 1, 0);
         }
 
