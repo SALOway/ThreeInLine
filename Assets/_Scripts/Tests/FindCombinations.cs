@@ -9,7 +9,6 @@ namespace Tests
     public class FindCombinations
     {
         GameBoard _gameBoard;
-        Tile[,] _tiles;
         List<List<int>> _expectedAllCombinations;
 
         [SetUp]
@@ -19,12 +18,13 @@ namespace Tests
             {
                 { 2, 3, 5 },
                 { 2, 4, 3 },
-                { 3, 3, 3 }
+                { 3, 3, 3 },
+                { 5, 6, 2 },
             };
 
-            _tiles = TestingUtilites.CreateTiles(tileLayout);
+            Tile[,] tiles = TestingUtilites.CreateTiles(tileLayout);
             _gameBoard = TestingUtilites.CreateGameBoard();
-            _gameBoard.SetTiles(_tiles);
+            _gameBoard.SetTiles(tiles);
 
             _expectedAllCombinations = new List<List<int>>()
             {

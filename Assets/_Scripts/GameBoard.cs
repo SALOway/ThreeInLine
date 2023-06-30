@@ -15,7 +15,7 @@ public class GameBoard : MonoBehaviour
     /// </summary>
     /// <param name="tileGridPosition"></param>
     /// <returns></returns>
-    public Tile GetTile(Vector3Int tileGridPosition)
+    public Tile GetTileAt(Vector3Int tileGridPosition)
     {
         Tile tile = null;
         if (_tilesInGrid != null)
@@ -31,10 +31,7 @@ public class GameBoard : MonoBehaviour
     /// Set current tiles on game board
     /// </summary>
     /// <param name="tiles"></param>
-    public void SetTiles(Tile[,] tiles)
-    {
-        _tilesInGrid = tiles;
-    }
+    public void SetTiles(Tile[,] tiles) => _tilesInGrid = tiles;
     /// <summary>
     /// Swaps tiles at given positions in grid
     /// </summary>
@@ -42,8 +39,8 @@ public class GameBoard : MonoBehaviour
     /// <param name="secondTileGridPosition"></param>
     public void SwapTilesAt(Vector3Int firstTileGridPosition, Vector3Int secondTileGridPosition)
     {
-        Tile firstTile = GetTile(firstTileGridPosition);
-        Tile secondTile = GetTile(secondTileGridPosition);
+        Tile firstTile = GetTileAt(firstTileGridPosition);
+        Tile secondTile = GetTileAt(secondTileGridPosition);
 
         (_tilesInGrid[firstTileGridPosition.x, firstTileGridPosition.y], _tilesInGrid[secondTileGridPosition.x, secondTileGridPosition.y]) = (_tilesInGrid[secondTileGridPosition.x, secondTileGridPosition.y], _tilesInGrid[firstTileGridPosition.x, firstTileGridPosition.y]);
 
@@ -103,7 +100,7 @@ public class GameBoard : MonoBehaviour
         for (int x = 0; x < _tilesInGrid.GetLength(0); x++)
         {
             Vector3Int tileGridPosition = new Vector3Int(x, y, 0);
-            Tile tile = GetTile(tileGridPosition);
+            Tile tile = GetTileAt(tileGridPosition);
 
             if (currentCombination.Count < 1)
             {
@@ -142,7 +139,7 @@ public class GameBoard : MonoBehaviour
         for (int y = 0; y < _tilesInGrid.GetLength(1); y++)
         {
             Vector3Int tileGridPosition = new Vector3Int(x, y, 0);
-            Tile tile = GetTile(tileGridPosition);
+            Tile tile = GetTileAt(tileGridPosition);
             if (currentCombination.Count < 1)
             {
                 currentCombination.Push(tile);

@@ -9,8 +9,8 @@ namespace Tests
     public class SwapTiles
     {
         GameBoard _gameBoard;
-        Vector3Int firstTilePosition;
-        Vector3Int secondTilePosition;
+        Vector3Int _firstTileGridPosition;
+        Vector3Int _secondTileGridPosition;
 
 
         [SetUp]
@@ -25,32 +25,32 @@ namespace Tests
             _gameBoard = TestingUtilites.CreateGameBoard();
             _gameBoard.SetTiles(TestingUtilites.CreateTiles(tileLayout));
 
-            firstTilePosition = new Vector3Int(1, 1, 0);
-            secondTilePosition = new Vector3Int(0, 1, 0);
+            _firstTileGridPosition = new Vector3Int(1, 1, 0);
+            _secondTileGridPosition = new Vector3Int(0, 1, 0);
         }
 
         [Test]
         public void SwapTiles_WhenCalled_SwapsTilesInArray()
         {
-            Tile firstTile = _gameBoard.GetTile(firstTilePosition);
-            Tile secondTile = _gameBoard.GetTile(secondTilePosition);
+            Tile firstTile = _gameBoard.GetTileAt(_firstTileGridPosition);
+            Tile secondTile = _gameBoard.GetTileAt(_secondTileGridPosition);
 
             _gameBoard.SwapTiles(firstTile, secondTile);
 
-            Assert.AreEqual(secondTile, _gameBoard.GetTile(firstTilePosition));
-            Assert.AreEqual(firstTile, _gameBoard.GetTile(secondTilePosition));
+            Assert.AreEqual(secondTile, _gameBoard.GetTileAt(_firstTileGridPosition));
+            Assert.AreEqual(firstTile, _gameBoard.GetTileAt(_secondTileGridPosition));
         }
 
         [Test]
         public void SwapTilesAt_WhenCalled_SwapsTilesInArray()
         {
-            Tile firstTile = _gameBoard.GetTile(firstTilePosition);
-            Tile secondTile = _gameBoard.GetTile(secondTilePosition);
+            Tile firstTile = _gameBoard.GetTileAt(_firstTileGridPosition);
+            Tile secondTile = _gameBoard.GetTileAt(_secondTileGridPosition);
 
-            _gameBoard.SwapTilesAt(firstTilePosition, secondTilePosition);
+            _gameBoard.SwapTilesAt(_firstTileGridPosition, _secondTileGridPosition);
 
-            Assert.AreEqual(secondTile, _gameBoard.GetTile(firstTilePosition));
-            Assert.AreEqual(firstTile, _gameBoard.GetTile(secondTilePosition));
+            Assert.AreEqual(secondTile, _gameBoard.GetTileAt(_firstTileGridPosition));
+            Assert.AreEqual(firstTile, _gameBoard.GetTileAt(_secondTileGridPosition));
         }
     }
 }

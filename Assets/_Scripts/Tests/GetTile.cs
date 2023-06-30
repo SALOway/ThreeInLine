@@ -4,13 +4,12 @@ using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
 
-
 namespace Tests
 {
     public class GetTile
     {
         GameBoard _gameBoard;
-        Tile[,] _tilesReference;
+        Tile[,] _tiles;
         Vector3Int _tileGridPosition;
 
         [SetUp]
@@ -18,24 +17,26 @@ namespace Tests
         {
             int[,] tileLayout = new int[,]
             {
-                { 2, 3, 5 },
-                { 2, 4, 3 },
-                { 3, 3, 3 }
+                { 1, 2, 3 },
+                { 4, 5, 6 },
+                { 7, 8, 9 },
+                { 10, 11, 12 },
             };
+            _tiles = TestingUtilites.CreateTiles(tileLayout);
             _gameBoard = TestingUtilites.CreateGameBoard();
-            _tilesReference = TestingUtilites.CreateTiles(tileLayout);
+            _gameBoard.SetTiles(_tiles);
             _tileGridPosition = new Vector3Int(2, 1, 0);
         }
 
         [Test]
-        public void GetTile_WhenCalled_GetTileAtGivenPositionInGrid()
+        public void GetTileAt_WhenCalled_GetTileAtGivenPositionInGrid()
         {
-            _gameBoard.SetTiles(_tilesReference);
+            Tile expectedTile = _tiles[_tileGridPosition.x, _tileGridPosition.y];
+            Tile actualTile = _gameBoard.GetTileAt(_tileGridPosition);
 
-            Tile referenceTile = _tilesReference[_tileGridPosition.x, _tileGridPosition.y];
-            Tile actualTile = _gameBoard.GetTile(_tileGridPosition);
+            Assert.AreEqual(expectedTile.Type, actualTile.Type, $"Tyle types aren't equal. {expectedTile.Type} != {actualTile.Type}");
 
-            Assert.AreEqual(actualTile, referenceTile);
+            Assert.AreEqual(expectedTile, actualTile, "Tiles aren't the same objects");
         }
     }
 }
