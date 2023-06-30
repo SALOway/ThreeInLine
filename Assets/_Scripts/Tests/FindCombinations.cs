@@ -9,7 +9,7 @@ namespace Tests
     public class FindCombinations
     {
         GameBoard _gameBoard;
-        List<List<int>> _expectedAllCombinations;
+        List<Combination> _expectedCombinations;
 
         [SetUp]
         public void Setup()
@@ -26,34 +26,30 @@ namespace Tests
             _gameBoard = TestingUtilites.CreateGameBoard();
             _gameBoard.SetTiles(tiles);
 
-            _expectedAllCombinations = new List<List<int>>()
-            {
-                new List<int>()
-                {
-                    tileLayout[2,0], tileLayout[2,1], tileLayout[2,2]
-                }
-            };
+            Tile[] tilesInHorizontalCombination = { tiles[0, 1], tiles[1, 1], tiles[2, 1] };
+            Combination expectedHorizontalCombination = new Combination(tilesInHorizontalCombination , CombinationType.Horizontal);
+            _expectedCombinations = new List<Combination>() { expectedHorizontalCombination };
         }
 
 
         [Test]
         public void FindAllCombinations_WhenCalled_GetAllCombinationsOnGameBoard()
         {
-            List<List<Tile>> allCombinations = _gameBoard.FindAllCombinations();
+            List<Combination> allCombinations = _gameBoard.FindAllCombinations();
 
-            Assert.AreEqual(_expectedAllCombinations.Count, allCombinations.Count, "Invalid number of combinations");
+            Assert.AreEqual(_expectedCombinations.Count, allCombinations.Count, "Invalid number of combinations");
 
             for (int i = 0; i < allCombinations.Count; i++)
             {
-                List<int> expectedCombination = _expectedAllCombinations[i];
-                List<Tile> combination = allCombinations[i];
+                Combination expectedCombination = _expectedCombinations[i];
+                Combination combination = allCombinations[i];
 
                 Assert.AreEqual(expectedCombination.Count, combination.Count, $"Invalid combination length at index {i}");
                 
                 for (int j = 0; j < combination.Count; j++)
                 {
-                    int expectedType = expectedCombination[j];
-                    int type = combination[j].Type;
+                    int expectedType = expectedCombination.Tiles[j].Type;
+                    int type = combination.Tiles[j].Type;
                     Assert.AreEqual(expectedType, type, "Tile mismatch at index " + j);
                 }
             }

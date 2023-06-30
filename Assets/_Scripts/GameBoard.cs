@@ -64,10 +64,10 @@ public class GameBoard : MonoBehaviour
     }
 
 
-    public List<List<Tile>> FindAllCombinations()
+    public List<Combination> FindAllCombinations()
     {
         // Return vertical and horizontal combinations, exactly in that order
-        List<List<Tile>> allCombinations = new List<List<Tile>>();
+        List<Combination> allCombinations = new List<Combination>();
 
         for (int x = 0; x < _tilesInGrid.GetLength(0); x++)
         {
@@ -82,9 +82,9 @@ public class GameBoard : MonoBehaviour
         return allCombinations;
     }
 
-    public List<List<Tile>> FindCombinationsAt(Vector3Int tileGridPosition)
+    public List<Combination> FindCombinationsAt(Vector3Int tileGridPosition)
     {
-        List<List<Tile>> combinations = new List<List<Tile>>();
+        List<Combination> combinations = new List<Combination>();
 
         combinations.AddRange(FindVerticalCombinationsAt(tileGridPosition.x));
         combinations.AddRange(FindHorizontalCombinationsAt(tileGridPosition.y));
@@ -92,9 +92,9 @@ public class GameBoard : MonoBehaviour
         return combinations;
     }
 
-    private List<List<Tile>> FindHorizontalCombinationsAt(int y)
+    private List<Combination> FindHorizontalCombinationsAt(int y)
     {
-        List<List<Tile>> horizontalCombinations = new List<List<Tile>>();
+        List<Combination> horizontalCombinations = new List<Combination>();
 
         Stack<Tile> currentCombination = new Stack<Tile>();
         for (int x = 0; x < _tilesInGrid.GetLength(0); x++)
@@ -116,7 +116,7 @@ public class GameBoard : MonoBehaviour
                 {
                     if (currentCombination.Count >= 3)
                     {
-                        horizontalCombinations.Add(new List<Tile>(currentCombination));
+                        horizontalCombinations.Add(new Combination(currentCombination.ToArray(), CombinationType.Horizontal));
                     }
                     currentCombination.Clear();
                     currentCombination.Push(tile);
@@ -125,15 +125,15 @@ public class GameBoard : MonoBehaviour
 
             if (currentCombination.Count >= 3)
             {
-                horizontalCombinations.Add(new List<Tile>(currentCombination));
+                horizontalCombinations.Add(new Combination(currentCombination.ToArray(), CombinationType.Horizontal));
             }
         }
         return horizontalCombinations;
     }
 
-    private List<List<Tile>> FindVerticalCombinationsAt(int x)
+    private List<Combination> FindVerticalCombinationsAt(int x)
     {
-        List<List<Tile>> verticalCombinations = new List<List<Tile>>();
+        List<Combination> verticalCombinations = new List<Combination>();
 
         Stack<Tile> currentCombination = new Stack<Tile>();
         for (int y = 0; y < _tilesInGrid.GetLength(1); y++)
@@ -154,7 +154,7 @@ public class GameBoard : MonoBehaviour
                 {
                     if (currentCombination.Count >= 3)
                     {
-                        verticalCombinations.Add(new List<Tile>(currentCombination));
+                        verticalCombinations.Add(new Combination(currentCombination.ToArray(), CombinationType.Vertical));
                     }
                     currentCombination.Clear();
                     currentCombination.Push(tile);
@@ -163,7 +163,7 @@ public class GameBoard : MonoBehaviour
 
             if (currentCombination.Count >= 3)
             {
-                verticalCombinations.Add(new List<Tile>(currentCombination));
+                verticalCombinations.Add(new Combination(currentCombination.ToArray(), CombinationType.Vertical));
             }
         }
 
