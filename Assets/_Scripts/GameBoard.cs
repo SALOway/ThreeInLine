@@ -62,10 +62,8 @@ public class GameBoard : MonoBehaviour
         secondTile.GridPosition = firstTileGridPosition;
     }
 
-
     public List<Combination> FindAllCombinations()
     {
-        // Return vertical and horizontal combinations, exactly in that order
         List<Combination> allCombinations = new List<Combination>();
 
         for (int x = 0; x < _tilesInGrid.GetLength(0); x++)

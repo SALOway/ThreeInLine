@@ -55,9 +55,9 @@ namespace Tests
                 Combination expectedCombination = _expectedHorizontalCombinations[i];
                 Combination combination = horizontalCombinations[i];
 
-                Assert.AreEqual(expectedCombination.Count, combination.Count, $"Invalid horizontal combination length at index {i}");
+                Assert.AreEqual(expectedCombination.Tiles.Count, combination.Tiles.Count, $"Invalid horizontal combination length at index {i}");
 
-                for (int j = 0; j < combination.Count; j++)
+                for (int j = 0; j < combination.Tiles.Count; j++)
                 {
                     int expectedType = expectedCombination.Tiles[j].Type;
                     int type = combination.Tiles[j].Type;
@@ -80,9 +80,9 @@ namespace Tests
                 Combination expectedCombination = _expectedHorizontalCombinations[i];
                 Combination combination = verticalCombinations[i];
 
-                Assert.AreEqual(expectedCombination.Count, combination.Count, $"Invalid vertical combination length at index {i}");
+                Assert.AreEqual(expectedCombination.Tiles.Count, combination.Tiles.Count, $"Invalid vertical combination length at index {i}");
 
-                for (int j = 0; j < combination.Count; j++)
+                for (int j = 0; j < combination.Tiles.Count; j++)
                 {
                     int expectedType = expectedCombination.Tiles[j].Type;
                     int type = combination.Tiles[j].Type;

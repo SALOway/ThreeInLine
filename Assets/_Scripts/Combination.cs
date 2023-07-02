@@ -4,7 +4,6 @@ public class Combination
 {
     public IReadOnlyList<Tile> Tiles;
     public readonly CombinationType Type;
-    public int Count => Tiles.Count;
 
     public Combination(IReadOnlyList<Tile> tiles, CombinationType type)
     {
@@ -17,14 +16,14 @@ public class Combination
         if (obj is Combination other)
         {
             bool typesEqual = Type == other.Type;
-            bool countEqual = Count == other.Count;
+            bool countEqual = Tiles.Count == other.Tiles.Count;
             bool tilesEqual = true;
             if (countEqual)
             {
-                for (int i = 0; i < other.Count; i++)
+                for (int i = 0; i < other.Tiles.Count; i++)
                 {
                     bool hasEqualTile = false;
-                    for (int j = 0; j < other.Count; j++)
+                    for (int j = 0; j < other.Tiles.Count; j++)
                     {
                         hasEqualTile = ReferenceEquals(Tiles[i], other.Tiles[i]);
                         if (hasEqualTile) break;
