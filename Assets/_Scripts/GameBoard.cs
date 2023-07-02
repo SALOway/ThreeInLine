@@ -166,4 +166,33 @@ public class GameBoard : MonoBehaviour
 
         return verticalCombinations;
     }
+
+    public NeighborTiles GetNeighborTiles(Vector3Int tileGridPosition)
+    {
+        List<Tile> horizontalNeighbors = new List<Tile>();
+        List<Tile> verticalNeighbors = new List<Tile>();
+        List<Tile> cornerNeighbors = new List<Tile>();
+        for (int x = tileGridPosition.x - 1; x < tileGridPosition.x + 1; x++)
+        {
+            for (int y = tileGridPosition.y - 1; y < tileGridPosition.y + 1; y++)
+            {
+                Vector3Int neighborTileGridPosition = new Vector3Int(x, y, 0);
+                if (neighborTileGridPosition == tileGridPosition) continue;
+
+                if (neighborTileGridPosition.y == tileGridPosition.y)
+                {
+                    horizontalNeighbors.Add(GetTileAt(neighborTileGridPosition));
+                    continue;
+                }
+                if (neighborTileGridPosition.x == tileGridPosition.x)
+                {
+                    verticalNeighbors.Add(GetTileAt(neighborTileGridPosition));
+                    continue;
+                }
+                cornerNeighbors.Add(GetTileAt(neighborTileGridPosition));
+            }
+        }
+        NeighborTiles neighbors = new NeighborTiles(horizontalNeighbors, verticalNeighbors, cornerNeighbors);
+        return neighbors;
+    }
 }
