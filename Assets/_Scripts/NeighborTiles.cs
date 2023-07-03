@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class NeighborTiles
 {
+    public Vector3Int BaseTileGridPosition { get; private set; }
     public IReadOnlyList<Tile> Horizontal;
     public IReadOnlyList<Tile> Vertical;
     public IReadOnlyList<Tile> Corner;
@@ -13,8 +14,9 @@ public class NeighborTiles
     public bool HasCornerNeighbors => Corner.Count > 0;
 
 
-    public NeighborTiles(IReadOnlyList<Tile> horizontalNeighbors, IReadOnlyList<Tile> verticalNeighbors, IReadOnlyList<Tile> cornerNeighbors)
+    public NeighborTiles(Vector3Int baseTile, IReadOnlyList<Tile> horizontalNeighbors, IReadOnlyList<Tile> verticalNeighbors, IReadOnlyList<Tile> cornerNeighbors)
     {
+        BaseTileGridPosition = baseTile;
         Horizontal = horizontalNeighbors;
         Vertical = verticalNeighbors;
         Corner = cornerNeighbors;
