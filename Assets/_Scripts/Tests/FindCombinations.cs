@@ -59,8 +59,8 @@ namespace Tests
 
                 for (int j = 0; j < combination.Tiles.Count; j++)
                 {
-                    int expectedType = expectedCombination.Tiles[j].Type;
-                    int type = combination.Tiles[j].Type;
+                    int expectedType = expectedCombination.Tiles[j].BaseType;
+                    int type = combination.Tiles[j].BaseType;
                     Assert.AreEqual(expectedType, type, "Tile mismatch in horizontal combination at index " + j);
                 }
             }
@@ -84,8 +84,8 @@ namespace Tests
 
                 for (int j = 0; j < combination.Tiles.Count; j++)
                 {
-                    int expectedType = expectedCombination.Tiles[j].Type;
-                    int type = combination.Tiles[j].Type;
+                    int expectedType = expectedCombination.Tiles[j].BaseType;
+                    int type = combination.Tiles[j].BaseType;
                     Assert.AreEqual(expectedType, type, "Tile mismatch in vertical combination at index " + j);
                 }
             }

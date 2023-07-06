@@ -7,22 +7,24 @@ using UnityEngine;
 /// </summary>
 public class GameBoard : MonoBehaviour
 {
-    private Tile[,] _tilesInGrid;
+    private Tile[,] _tiles;
+    public int Width => _tiles != null ? _tiles.GetLength(0) : 0;
+    public int Height => _tiles != null ? _tiles.GetLength(1) : 0;
+
 
     /// <summary>
     /// Returns tile at the given position on grid
     /// </summary>
-    /// <param name="tileGridPosition"></param>
+    /// <param name="tilePosition"></param>
     /// <returns></returns>
-    public Tile GetTileAt(Vector3Int tileGridPosition)
+    public Tile GetTile(Vector3Int tilePosition)
     {
         Tile tile = null;
-        if (_tilesInGrid != null)
+        bool XIsValid = tilePosition.x >= 0 && tilePosition.x < _tiles.GetLength(0);
+        bool YIsValid = tilePosition.y >= 0 && tilePosition.y < _tiles.GetLength(1);
+        if (_tiles != null && XIsValid && YIsValid)
         {
-            bool XIsValid = tileGridPosition.x >= 0 && tileGridPosition.x < _tilesInGrid.GetLength(0);
-            bool YIsValid = tileGridPosition.y >= 0 && tileGridPosition.y < _tilesInGrid.GetLength(1);
-
-            if (XIsValid && YIsValid) tile = _tilesInGrid[tileGridPosition.x, tileGridPosition.y];
+            tile = _tiles[tilePosition.x, tilePosition.y];
         }
         return tile;
     }
@@ -30,74 +32,62 @@ public class GameBoard : MonoBehaviour
     /// Set current tiles on game board
     /// </summary>
     /// <param name="tiles"></param>
-    public void SetTiles(Tile[,] tiles) => _tilesInGrid = tiles;
+    public void SetTiles(Tile[,] tiles) => _tiles = tiles;
     /// <summary>
     /// Swaps tiles at given positions in grid
     /// </summary>
-    /// <param name="firstTileGridPosition"></param>
-    /// <param name="secondTileGridPosition"></param>
-    public void SwapTilesAt(Vector3Int firstTileGridPosition, Vector3Int secondTileGridPosition)
-    {
-        Tile firstTile = GetTileAt(firstTileGridPosition);
-        Tile secondTile = GetTileAt(secondTileGridPosition);
-
-        (_tilesInGrid[firstTileGridPosition.x, firstTileGridPosition.y], _tilesInGrid[secondTileGridPosition.x, secondTileGridPosition.y]) = (_tilesInGrid[secondTileGridPosition.x, secondTileGridPosition.y], _tilesInGrid[firstTileGridPosition.x, firstTileGridPosition.y]);
-
-        firstTile.GridPosition = secondTileGridPosition;
-        secondTile.GridPosition = firstTileGridPosition;
-    }
-    /// <summary>
-    /// Swaps tiles in grid
-    /// </summary>
-    /// <param name="firstTile"></param>
-    /// <param name="secondTile"></param>
+    /// <param name="firstTilePosition"></param>
+    /// <param name="secondTilePosition"></param>
     public void SwapTiles(Tile firstTile, Tile secondTile)
     {
-        Vector3Int firstTileGridPosition = firstTile.GridPosition;
-        Vector3Int secondTileGridPosition = secondTile.GridPosition;
-
-        (_tilesInGrid[firstTileGridPosition.x, firstTileGridPosition.y], _tilesInGrid[secondTileGridPosition.x, secondTileGridPosition.y]) = (_tilesInGrid[secondTileGridPosition.x, secondTileGridPosition.y], _tilesInGrid[firstTileGridPosition.x, firstTileGridPosition.y]);
+        Vector3Int firstTilePosition = firstTile.Position;
+        Vector3Int secondTilePosition = secondTile.Position;
         
-        firstTile.GridPosition = secondTileGridPosition;
-        secondTile.GridPosition = firstTileGridPosition;
+        // Literally swap
+        (_tiles[firstTilePosition.x, firstTilePosition.y], _tiles[secondTilePosition.x, secondTilePosition.y]) = (_tiles[secondTilePosition.x, secondTilePosition.y], _tiles[firstTilePosition.x, firstTilePosition.y]);
+
+        // Update position
+        firstTile.Position = secondTilePosition;
+        secondTile.Position = firstTilePosition;
     }
 
+    #region Combinations
     public List<Combination> FindAllCombinations()
     {
         List<Combination> allCombinations = new List<Combination>();
 
-        for (int x = 0; x < _tilesInGrid.GetLength(0); x++)
+        for (int columnIndex = 0; columnIndex < Width; columnIndex++)
         {
-            allCombinations.AddRange(FindVerticalCombinationsAt(x));
+            allCombinations.AddRange(FindVerticalCombinationsAt(columnIndex));
         }
 
-        for (int y = 0; y < _tilesInGrid.GetLength(1); y++)
+        for (int rowIndex = 0; rowIndex < Height; rowIndex++)
         {
-            allCombinations.AddRange(FindHorizontalCombinationsAt(y));
+            allCombinations.AddRange(FindHorizontalCombinationsAt(rowIndex));
         }
 
         return allCombinations;
     }
 
-    public List<Combination> FindCombinationsAt(Vector3Int tileGridPosition)
+    public List<Combination> FindCombinationsAt(Vector3Int tilePosition)
     {
         List<Combination> combinations = new List<Combination>();
 
-        combinations.AddRange(FindVerticalCombinationsAt(tileGridPosition.x));
-        combinations.AddRange(FindHorizontalCombinationsAt(tileGridPosition.y));
+        combinations.AddRange(FindVerticalCombinationsAt(tilePosition.x));
+        combinations.AddRange(FindHorizontalCombinationsAt(tilePosition.y));
 
         return combinations;
     }
 
-    private List<Combination> FindHorizontalCombinationsAt(int y)
+    private List<Combination> FindHorizontalCombinationsAt(int rowIndex)
     {
         List<Combination> horizontalCombinations = new List<Combination>();
 
         Stack<Tile> currentCombination = new Stack<Tile>();
-        for (int x = 0; x < _tilesInGrid.GetLength(0); x++)
+        for (int columnIndex = 0; columnIndex < Width; columnIndex++)
         {
-            Vector3Int tileGridPosition = new Vector3Int(x, y, 0);
-            Tile tile = GetTileAt(tileGridPosition);
+            Vector3Int tilePosition = new Vector3Int(columnIndex, rowIndex, 0);
+            Tile tile = GetTile(tilePosition);
 
             if (currentCombination.Count < 1)
             {
@@ -105,7 +95,7 @@ public class GameBoard : MonoBehaviour
             }
             else
             {
-                if (tile.Type == currentCombination.Peek().Type)
+                if (tile.BaseType == currentCombination.Peek().BaseType)
                 {
                     currentCombination.Push(tile);
                 }
@@ -113,7 +103,8 @@ public class GameBoard : MonoBehaviour
                 {
                     if (currentCombination.Count >= 3)
                     {
-                        horizontalCombinations.Add(new Combination(currentCombination.ToArray(), CombinationType.Horizontal));
+                        Combination combination = new Combination(currentCombination.ToArray(), CombinationType.Horizontal);
+                        horizontalCombinations.Add(combination);
                     }
                     currentCombination.Clear();
                     currentCombination.Push(tile);
@@ -122,28 +113,29 @@ public class GameBoard : MonoBehaviour
 
             if (currentCombination.Count >= 3)
             {
-                horizontalCombinations.Add(new Combination(currentCombination.ToArray(), CombinationType.Horizontal));
+                Combination combination = new Combination(currentCombination.ToArray(), CombinationType.Horizontal);
+                horizontalCombinations.Add(combination);
             }
         }
         return horizontalCombinations;
     }
 
-    private List<Combination> FindVerticalCombinationsAt(int x)
+    private List<Combination> FindVerticalCombinationsAt(int columnIndex)
     {
         List<Combination> verticalCombinations = new List<Combination>();
 
         Stack<Tile> currentCombination = new Stack<Tile>();
-        for (int y = 0; y < _tilesInGrid.GetLength(1); y++)
+        for (int rowIndex = 0; rowIndex < Height; rowIndex++)
         {
-            Vector3Int tileGridPosition = new Vector3Int(x, y, 0);
-            Tile tile = GetTileAt(tileGridPosition);
+            Vector3Int tilePosition = new Vector3Int(columnIndex, rowIndex, 0);
+            Tile tile = GetTile(tilePosition);
             if (currentCombination.Count < 1)
             {
                 currentCombination.Push(tile);
             }
             else
             {
-                if (tile.Type == currentCombination.Peek().Type)
+                if (tile.BaseType == currentCombination.Peek().BaseType)
                 {
                     currentCombination.Push(tile);
                 }
@@ -151,7 +143,8 @@ public class GameBoard : MonoBehaviour
                 {
                     if (currentCombination.Count >= 3)
                     {
-                        verticalCombinations.Add(new Combination(currentCombination.ToArray(), CombinationType.Vertical));
+                        Combination combination = new Combination(currentCombination.ToArray(), CombinationType.Vertical);
+                        verticalCombinations.Add(combination);
                     }
                     currentCombination.Clear();
                     currentCombination.Push(tile);
@@ -160,145 +153,128 @@ public class GameBoard : MonoBehaviour
 
             if (currentCombination.Count >= 3)
             {
-                verticalCombinations.Add(new Combination(currentCombination.ToArray(), CombinationType.Vertical));
+                Combination combination = new Combination(currentCombination.ToArray(), CombinationType.Vertical);
+                verticalCombinations.Add(combination);
             }
         }
 
         return verticalCombinations;
     }
+    #endregion
 
-    public int CountAllTilesWithAvailableMoves()
+    public List<Tile> FindAllTilesWithAvailableMoves()
     {
-        HashSet<Tile> uniqueTilesWithMove = new HashSet<Tile>();
-        for (int x = 0; x < _tilesInGrid.GetLength(0); x++)
+        HashSet<Tile> tilesWithMoves = new HashSet<Tile>();
+
+        for (int columnIndex = 0; columnIndex < Width; columnIndex++)
         {
-            for (int y = 0; y < _tilesInGrid.GetLength(1); y++)
+            for (int rowIndex = 0; rowIndex < Height; rowIndex++)
             {
-                Vector3Int tileGridPosition = new Vector3Int(x, y, 0);
-                FindTilesWithMoveAt(tileGridPosition).ForEach(tile => uniqueTilesWithMove.Add(tile));
-            }
-        }
-
-
-        foreach (Tile tile in uniqueTilesWithMove)
-        {
-            Debug.Log($"Tile Position: ({tile.GridPosition.x},{tile.GridPosition.y})");
-        }
-
-        int movesCounter = uniqueTilesWithMove.Count;
-        return movesCounter;
-    }
-
-    private List<Tile> FindTilesWithMoveAt(Vector3Int tileGridPosition)
-    {
-        List<Tile> tilesWithMove = new List<Tile>();
-        NeighborTiles neighborTiles = GetNeighborTilesAt(GetTileAt(tileGridPosition));
-
-        if (neighborTiles.HasCornerNeighbors)
-        {
-            if (neighborTiles.Corner.Count > 1)
-            {
-                tilesWithMove.AddRange(FindTilesForCornerMove(neighborTiles));
-            }
-
-            if (neighborTiles.HasHorizontalNeighbors)
-            {
-                tilesWithMove.AddRange(FindTilesForHorizontalMove(neighborTiles));
-            }
-
-            if (neighborTiles.HasVerticalNeighbors)
-            {
-                tilesWithMove.AddRange(FindTilesForVerticalMove(neighborTiles));
-            }
-        }
-        return tilesWithMove;
-    }
-
-    private List<Tile> FindTilesForCornerMove(NeighborTiles neighborTiles)
-    {
-        List<Tile> tilesWithMove = new List<Tile>();
-        foreach (Tile cornerTile in neighborTiles.Corner)
-        {
-            if (cornerTile == null) continue;
-            foreach (Tile other in neighborTiles.Corner)
-            {
-                if (other == null || cornerTile.GridPosition == other.GridPosition) continue;
-                if (cornerTile.GridPosition.y == other.GridPosition.y || cornerTile.GridPosition.x == other.GridPosition.x)
+                Vector3Int tilePosition = new Vector3Int(columnIndex, rowIndex, 0);
+                Tile tile = GetTile(tilePosition);
+                if (tile == null) continue;
+                if (CheckTileForMove(tile))
                 {
-                    tilesWithMove.Add(GetTileAt(neighborTiles.BaseTileGridPosition));
+                    tilesWithMoves.Add(tile);
                 }
             }
         }
-        return tilesWithMove;
+
+        return new List<Tile>(tilesWithMoves);
     }
 
-    private List<Tile> FindTilesForHorizontalMove(NeighborTiles neighborTiles)
+    private bool CheckTileForMove(Tile tile)
     {
-        List<Tile> tilesWithMove = new List<Tile>();
-        foreach (Tile horizontlaTile in neighborTiles.Horizontal)
-        {
-            if (horizontlaTile == null) continue;
-            foreach (Tile cornerTile in neighborTiles.Corner)
-            {
-                if (cornerTile == null) continue;
+        CornerNeighborTiles cornerNeighbors = GetCornerNeighborTiles(tile);
 
-                if (horizontlaTile.GridPosition.x != cornerTile.GridPosition.x)
-                {
-                    tilesWithMove.Add(cornerTile);
-                }
+        List<Tile> leftTiles = new List<Tile>
+        {
+            GetTile(tile.Position + Vector3Int.left * 2),
+            GetTile(tile.Position + Vector3Int.left * 3),
+        };
+        List<Tile> rightTiles = new List<Tile>
+        {
+            GetTile(tile.Position + Vector3Int.right * 2),
+            GetTile(tile.Position + Vector3Int.right * 3),
+        };
+        List<Tile> topTiles = new List<Tile>
+        {
+            GetTile(tile.Position + Vector3Int.up * 2),
+            GetTile(tile.Position + Vector3Int.up * 3),
+        };
+        List<Tile> bottomTiles = new List<Tile>
+        {
+            GetTile(tile.Position + Vector3Int.down * 2),
+            GetTile(tile.Position + Vector3Int.down * 3),
+        };
+        List<List<Tile>> allTiles = new List<List<Tile>>() { leftTiles, rightTiles, topTiles, bottomTiles};
+        foreach (List<Tile> tiles in allTiles)
+        {
+            if (tiles[0] == null || tiles[1] == null) continue;
+            if (tile.BaseType == tiles[0].BaseType && tile.BaseType == tiles[1].BaseType)
+            {
+                return true;
             }
         }
-        return tilesWithMove;
-    }
-    
-    private List<Tile> FindTilesForVerticalMove(NeighborTiles neighborTiles)
-    {
-        List<Tile> tilesWithMove = new List<Tile>();
-        foreach (Tile verticalTile in neighborTiles.Vertical)
+        
+        if (cornerNeighbors.HasCornerNeighbors)
         {
-            if (verticalTile == null) continue;
-            foreach (Tile cornerTile in neighborTiles.Corner)
+            if (cornerNeighbors.Tiles.Count > 1)
             {
-                if (cornerTile == null) continue;
-
-                if (verticalTile.GridPosition.y != cornerTile.GridPosition.y)
+                #region Try to find paar of corner tiles
+                foreach (Tile cornerTile in cornerNeighbors.Tiles)
                 {
-                    tilesWithMove.Add(cornerTile);
+                    foreach (Tile other in cornerNeighbors.Tiles)
+                    {
+                        if (other == cornerTile) continue;
+                        bool equalX = other.Position.x == cornerTile.Position.x;
+                        bool equalY = other.Position.y == cornerTile.Position.y;
+                        if (equalX || equalY) return true;
+                    }
                 }
+                #endregion
             }
+            #region Try to find at least one tile near corner tile, that creates combination
+            foreach (Tile cornerTile in cornerNeighbors.Tiles)
+            {
+                int cornerTileX = cornerTile.Position.x;
+                int cornerTileY = cornerTile.Position.y;
+
+                int relativeX = cornerTileX - tile.Position.x;
+                int relativeY = cornerTileY - tile.Position.y;
+
+                Vector3Int horizontalCornerNeighborPosition = new Vector3Int(cornerTileX + relativeX, cornerTileY, 0);
+                Vector3Int verticalCornerNeighborPosition = new Vector3Int(cornerTileX, cornerTileY + relativeY, 0);
+
+                Tile horizontalCornerNeighborTile = GetTile(horizontalCornerNeighborPosition);
+                Tile verticalCornerNeighborTile = GetTile(verticalCornerNeighborPosition);
+
+                if (horizontalCornerNeighborTile == null && verticalCornerNeighborTile == null) continue;
+                return true;
+            }
+            #endregion
         }
-        return tilesWithMove;
+
+        return false;
     }
 
-    public NeighborTiles GetNeighborTilesAt(Tile tile)
+    public CornerNeighborTiles GetCornerNeighborTiles(Tile tile)
     {
-        List<Tile> horizontalNeighbors = new List<Tile>();
-        List<Tile> verticalNeighbors = new List<Tile>();
         List<Tile> cornerNeighbors = new List<Tile>();
-        for (int x = tile.GridPosition.x - 1; x <= tile.GridPosition.x + 1; x++)
+        for (int x = tile.Position.x - 1; x <= tile.Position.x + 1; x++)
         {
-            for (int y = tile.GridPosition.y - 1; y <= tile.GridPosition.y + 1; y++)
+            for (int y = tile.Position.y - 1; y <= tile.Position.y + 1; y++)
             {
                 Vector3Int neighborTileGridPosition = new Vector3Int(x, y, 0);
-                Tile neighborTile = GetTileAt(neighborTileGridPosition);
+                Tile neighborTile = GetTile(neighborTileGridPosition);
 
                 if (neighborTile == null) continue;
-                if (neighborTile.GridPosition == tile.GridPosition) continue;
-
-                if (neighborTile.GridPosition.y == tile.GridPosition.y)
-                {
-                    if (neighborTile.Type == tile.Type) horizontalNeighbors.Add(GetTileAt(neighborTileGridPosition));
-                    continue;
-                }
-                if (neighborTile.GridPosition.x == tile.GridPosition.x)
-                {
-                    if (neighborTile.Type == tile.Type) verticalNeighbors.Add(GetTileAt(neighborTileGridPosition));
-                    continue;
-                }
-                if (neighborTile.Type == tile.Type) cornerNeighbors.Add(GetTileAt(neighborTileGridPosition));
+                if (neighborTile.Position == tile.Position) continue;
+                if (neighborTile.Position.x == tile.Position.x || neighborTile.Position.y == tile.Position.y) continue;
+                if (neighborTile.BaseType == tile.BaseType) cornerNeighbors.Add(GetTile(neighborTileGridPosition));
             }
         }
-        NeighborTiles neighbors = new NeighborTiles(tile.GridPosition, horizontalNeighbors, verticalNeighbors, cornerNeighbors);
+        CornerNeighborTiles neighbors = new CornerNeighborTiles(tile.Position, cornerNeighbors);
         return neighbors;
     }
 }

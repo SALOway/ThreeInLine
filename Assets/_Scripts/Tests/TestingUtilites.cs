@@ -28,8 +28,8 @@ namespace Tests
                     GameObject tileObject = new GameObject();
                     Tile tile = tileObject.AddComponent<Tile>();
                     tiles[x, y] = tile;
-                    tile.Type = tileLayout[height - y - 1, x];
-                    tile.GridPosition = new Vector3Int(x, y, 0);
+                    tile.BaseType = tileLayout[height - y - 1, x];
+                    tile.Position = new Vector3Int(x, y, 0);
                 }
             }
             return tiles;

@@ -29,9 +29,9 @@ namespace Tests
         public void GetTileAt_WhenCalled_GetTileAtGivenPositionInGrid()
         {
             Tile expectedTile = _tiles[_tileGridPosition.x, _tileGridPosition.y];
-            Tile actualTile = _gameBoard.GetTileAt(_tileGridPosition);
+            Tile actualTile = _gameBoard.GetTile(_tileGridPosition);
 
-            Assert.AreEqual(expectedTile.Type, actualTile.Type, $"Tyle types aren't equal. {expectedTile.Type} != {actualTile.Type}");
+            Assert.AreEqual(expectedTile.BaseType, actualTile.BaseType, $"Tyle types aren't equal. {expectedTile.BaseType} != {actualTile.BaseType}");
 
             Assert.AreEqual(expectedTile, actualTile, "Tiles aren't the same objects");
         }

@@ -10,7 +10,7 @@ namespace Tests
     {
         GameBoard _gameBoard;
         Tile[,] _tiles;
-        NeighborTiles _expectedNeighbors;
+        CornerNeighborTiles _expectedNeighbors;
         Tile _baseTile;
 
         [SetUp]
@@ -27,38 +27,40 @@ namespace Tests
             _gameBoard = TestingUtilites.CreateGameBoard();
             _gameBoard.SetTiles(tiles);
 
-            _baseTile = _gameBoard.GetTileAt(new Vector3Int(1, 1, 0));
+            _baseTile = _gameBoard.GetTile(new Vector3Int(1, 1, 0));
             List<Tile> horizontalTiles = new List<Tile>() 
             { 
-                _gameBoard.GetTileAt(new Vector3Int(2, 1, 0)) 
+                _gameBoard.GetTile(new Vector3Int(2, 1, 0)) 
             };
             List<Tile> verticalTiles = new List<Tile>()
             {
-                _gameBoard.GetTileAt(new Vector3Int(1, 0, 0)),
+                _gameBoard.GetTile(new Vector3Int(1, 0, 0)),
             };
             List<Tile> cornerTiles = new List<Tile>()
             {
-                _gameBoard.GetTileAt(new Vector3Int(2, 0, 0)),
-                _gameBoard.GetTileAt(new Vector3Int(0, 2, 0)),
+                _gameBoard.GetTile(new Vector3Int(2, 0, 0)),
+                _gameBoard.GetTile(new Vector3Int(0, 2, 0)),
             };
-            _expectedNeighbors = new NeighborTiles(_baseTile.GridPosition, horizontalTiles, verticalTiles, cornerTiles);
+            _expectedNeighbors = new CornerNeighborTiles(_baseTile.Position, cornerTiles);
         }
 
         [Test]
-        public void GetNeighborTilesAt_WhenCalled_ReturnNeighborTilesAt()
+        public void GetCornerNeighborTiles_WhenCalled_ReturnNeighborTilesAt()
         {
-            NeighborTiles neighborTiles = _gameBoard.GetNeighborTilesAt(_baseTile);
+            CornerNeighborTiles neighborTiles = _gameBoard.GetCornerNeighborTiles(_baseTile);
 
-            HashSet<Tile> expectedHorizontalNeighbors = new HashSet<Tile>(_expectedNeighbors.Horizontal);
-            HashSet<Tile> actualHorizontalNeighbors = new HashSet<Tile>(neighborTiles.Horizontal);
-            Assert.IsTrue(expectedHorizontalNeighbors.SetEquals(actualHorizontalNeighbors), "Horizontal neighbor tiles aren't the same");
+            HashSet<Tile> expectedCornerNeighbors = new HashSet<Tile>(_expectedNeighbors.Tiles);
+            HashSet<Tile> actualCornerNeighbors = new HashSet<Tile>(neighborTiles.Tiles);
 
-            HashSet<Tile> expectedVerticalNeighbors = new HashSet<Tile>(_expectedNeighbors.Vertical);
-            HashSet<Tile> actualVerticalNeighbors = new HashSet<Tile>(neighborTiles.Vertical);
-            Assert.IsTrue(expectedVerticalNeighbors.SetEquals(actualVerticalNeighbors), "Vertical neighbor tiles aren't the same");
+            foreach (var expectedTile in _expectedNeighbors.Tiles)
+            {
+                Debug.Log($"[E]Tile({expectedTile.Position.x},{expectedTile.Position.y}) Type: {expectedTile.BaseType}");
+            }
+            foreach (var actualTile in neighborTiles.Tiles)
+            {
+                Debug.Log($"[A]Tile({actualTile.Position.x},{actualTile.Position.y}) Type: {actualTile.BaseType}");
+            }
 
-            HashSet<Tile> expectedCornerNeighbors = new HashSet<Tile>(_expectedNeighbors.Corner);
-            HashSet<Tile> actualCornerNeighbors = new HashSet<Tile>(neighborTiles.Corner);
             Assert.IsTrue(expectedCornerNeighbors.SetEquals(actualCornerNeighbors), "Corner neighbor tiles aren't the same");
         }
     }

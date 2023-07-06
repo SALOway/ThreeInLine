@@ -29,25 +29,13 @@ namespace Tests
         [Test]
         public void SwapTiles_WhenCalled_SwapsTilesInArray()
         {
-            Tile firstTile = _gameBoard.GetTileAt(_firstTileGridPosition);
-            Tile secondTile = _gameBoard.GetTileAt(_secondTileGridPosition);
+            Tile firstTile = _gameBoard.GetTile(_firstTileGridPosition);
+            Tile secondTile = _gameBoard.GetTile(_secondTileGridPosition);
 
             _gameBoard.SwapTiles(firstTile, secondTile);
 
-            Assert.AreEqual(secondTile, _gameBoard.GetTileAt(_firstTileGridPosition));
-            Assert.AreEqual(firstTile, _gameBoard.GetTileAt(_secondTileGridPosition));
-        }
-
-        [Test]
-        public void SwapTilesAt_WhenCalled_SwapsTilesInArray()
-        {
-            Tile firstTile = _gameBoard.GetTileAt(_firstTileGridPosition);
-            Tile secondTile = _gameBoard.GetTileAt(_secondTileGridPosition);
-
-            _gameBoard.SwapTilesAt(_firstTileGridPosition, _secondTileGridPosition);
-
-            Assert.AreEqual(secondTile, _gameBoard.GetTileAt(_firstTileGridPosition));
-            Assert.AreEqual(firstTile, _gameBoard.GetTileAt(_secondTileGridPosition));
+            Assert.AreEqual(secondTile, _gameBoard.GetTile(_firstTileGridPosition));
+            Assert.AreEqual(firstTile, _gameBoard.GetTile(_secondTileGridPosition));
         }
     }
 }
