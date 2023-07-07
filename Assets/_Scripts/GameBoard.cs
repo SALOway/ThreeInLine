@@ -211,6 +211,32 @@ public class GameBoard : MonoBehaviour
         };
         #endregion
 
+        #region Corners
+        List<Tile> bottomCorners = new List<Tile>()
+        {
+            TileGrid.GetTile(baseTile.Position + Vector3Int.down + Vector3Int.left),
+            TileGrid.GetTile(baseTile.Position + Vector3Int.down + Vector3Int.right),
+        };
+
+        List<Tile> topCorners = new List<Tile>()
+        {
+            TileGrid.GetTile(baseTile.Position + Vector3Int.up + Vector3Int.left),
+            TileGrid.GetTile(baseTile.Position + Vector3Int.up + Vector3Int.right),
+        };
+
+        List<Tile> leftCorners = new List<Tile>()
+        {
+            TileGrid.GetTile(baseTile.Position + Vector3Int.left + Vector3Int.up),
+            TileGrid.GetTile(baseTile.Position + Vector3Int.left + Vector3Int.down),
+        };
+
+        List<Tile> rightCorners = new List<Tile>()
+        {
+            TileGrid.GetTile(baseTile.Position + Vector3Int.right + Vector3Int.up),
+            TileGrid.GetTile(baseTile.Position + Vector3Int.right + Vector3Int.down),
+        };
+        #endregion
+
         List<List<Tile>> allTilesForCombination = new List<List<Tile>>()
         {
             bottomCentral,
@@ -224,14 +250,21 @@ public class GameBoard : MonoBehaviour
             rightTop,
             leftCentral,
             leftBottom,
-            leftTop
+            leftTop,
+            bottomCorners,
+            topCorners,
+            leftCorners,
+            rightCorners
         };
 
         foreach (var tilesForCombination in allTilesForCombination)
         {
             if (tilesForCombination[0] != null && tilesForCombination[1] != null)
             {
-                return true;
+                if (baseTile.BaseType == tilesForCombination[0].BaseType && baseTile.BaseType == tilesForCombination[1].BaseType)
+                {
+                    return true;
+                }
             }
             else
             {
