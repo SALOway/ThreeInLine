@@ -53,7 +53,7 @@ namespace Tests
                 _gameBoard.TileGrid.GetTile(new Vector3Int(12, 14, 0)),
             };
         }
-/*
+
         [Test]
         public void CountAvailableMoves_WhenCalled_ReturnCountOfPlayerMoves()
         {
@@ -69,15 +69,12 @@ namespace Tests
 
             foreach (var actualTile in tilesWithMoves)
             {
-                if (!_expectedTilesWithMoves.Contains(actualTile)) Debug.Log($"Actual Tile At {actualTile.Position} Aren't Expected");
+                // if (!_expectedTilesWithMoves.Contains(actualTile)) Debug.Log($"Actual Tile At {actualTile.Position} Aren't Expected");
 
-                // Assert.Contains(actualTile, _expectedTilesWithMoves, $"Actual Tile At {actualTile.Position} Aren't Expected");
+                Assert.Contains(actualTile, _expectedTilesWithMoves, $"Actual Tile At {actualTile.Position} Aren't Expected");
             }
-
-
 
             Assert.AreEqual(_expectedTilesWithMoves.Count, tilesWithMoves.Count);
         }
-*/
     }
 }

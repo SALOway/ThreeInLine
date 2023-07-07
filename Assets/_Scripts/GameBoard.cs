@@ -115,15 +115,131 @@ public class GameBoard : MonoBehaviour
         return verticalCombinations;
     }
     #endregion
-/*
+
     public List<Tile> FindAllTilesWithAvailableMoves()
     {
+        HashSet<Tile> tilesWithMoves = new HashSet<Tile>();
 
+        for (int columnIndex = 0; columnIndex < TileGrid.Width; columnIndex++)
+        {
+            for (int rowIndex = 0; rowIndex < TileGrid.Height; rowIndex++)
+            {
+                Vector3Int tilePosition = new Vector3Int(columnIndex, rowIndex, 0);
+                Tile tile = TileGrid.GetTile(tilePosition);
+                if (tile == null) continue;
+                if (CheckTileForMove(tile))
+                {
+                    tilesWithMoves.Add(tile);
+                }
+            }
+        }
+
+        return new List<Tile>(tilesWithMoves);
     }
 
-    private bool CheckTileForMove(Tile tile)
+    private bool CheckTileForMove(Tile baseTile)
     {
-        
+        #region Bottom
+        List<Tile> bottomLeft = new List<Tile>()
+        {
+            TileGrid.GetTile(baseTile.Position + Vector3Int.down + Vector3Int.left),
+            TileGrid.GetTile(baseTile.Position + Vector3Int.down * 2 + Vector3Int.left),
+        };
+        List<Tile> bottomCentral = new List<Tile>()
+        {
+            TileGrid.GetTile(baseTile.Position + Vector3Int.down * 2),
+            TileGrid.GetTile(baseTile.Position + Vector3Int.down * 3),
+        };
+        List<Tile> bottomRight = new List<Tile>()
+        {
+            TileGrid.GetTile(baseTile.Position + Vector3Int.down + Vector3Int.right),
+            TileGrid.GetTile(baseTile.Position + Vector3Int.down * 2 + Vector3Int.right),
+        };
+        #endregion
+
+        #region Top
+        List<Tile> topLeft = new List<Tile>()
+        {
+            TileGrid.GetTile(baseTile.Position + Vector3Int.up + Vector3Int.left),
+            TileGrid.GetTile(baseTile.Position + Vector3Int.up * 2 + Vector3Int.left),
+        };
+        List<Tile> topCentral = new List<Tile>()
+        {
+            TileGrid.GetTile(baseTile.Position + Vector3Int.up * 2),
+            TileGrid.GetTile(baseTile.Position + Vector3Int.up * 3),
+        };
+        List<Tile> topRight = new List<Tile>()
+        {
+            TileGrid.GetTile(baseTile.Position + Vector3Int.up + Vector3Int.right),
+            TileGrid.GetTile(baseTile.Position + Vector3Int.up * 2 + Vector3Int.right),
+        };
+        #endregion
+
+        #region Left
+        List<Tile> leftBottom = new List<Tile>()
+        {
+            TileGrid.GetTile(baseTile.Position + Vector3Int.down + Vector3Int.left),
+            TileGrid.GetTile(baseTile.Position + Vector3Int.down + Vector3Int.left * 2),
+        };
+        List<Tile> leftCentral = new List<Tile>()
+        {
+            TileGrid.GetTile(baseTile.Position + Vector3Int.left * 2),
+            TileGrid.GetTile(baseTile.Position + Vector3Int.left * 3),
+        };
+        List<Tile> leftTop = new List<Tile>()
+        {
+            TileGrid.GetTile(baseTile.Position + Vector3Int.up + Vector3Int.left),
+            TileGrid.GetTile(baseTile.Position + Vector3Int.up + Vector3Int.left * 2),
+        };
+        #endregion
+
+        #region Right
+        List<Tile> rightBottom = new List<Tile>()
+        {
+            TileGrid.GetTile(baseTile.Position + Vector3Int.down + Vector3Int.right),
+            TileGrid.GetTile(baseTile.Position + Vector3Int.down + Vector3Int.right * 2),
+        };
+        List<Tile> rightCentral = new List<Tile>()
+        {
+            TileGrid.GetTile(baseTile.Position + Vector3Int.right * 2),
+            TileGrid.GetTile(baseTile.Position + Vector3Int.right * 3),
+        };
+        List<Tile> rightTop = new List<Tile>()
+        {
+            TileGrid.GetTile(baseTile.Position + Vector3Int.up + Vector3Int.right),
+            TileGrid.GetTile(baseTile.Position + Vector3Int.up + Vector3Int.right * 2),
+        };
+        #endregion
+
+        List<List<Tile>> allTilesForCombination = new List<List<Tile>>()
+        {
+            bottomCentral,
+            bottomLeft,
+            bottomRight,
+            topCentral,
+            topLeft,
+            topRight,
+            rightCentral,
+            rightBottom,
+            rightTop,
+            leftCentral,
+            leftBottom,
+            leftTop
+        };
+
+        foreach (var tilesForCombination in allTilesForCombination)
+        {
+            if (tilesForCombination[0] != null && tilesForCombination[1] != null)
+            {
+                return true;
+            }
+            else
+            {
+                continue;
+            }
+        }
+
+        return false;
     }
-*/
+
 }
