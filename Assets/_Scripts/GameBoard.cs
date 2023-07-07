@@ -1,15 +1,11 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-/// <summary>
-/// Class that storing information about the game board and its tiles. 
-/// It provides functionality to perform operations over the tiles.
-/// </summary>
 public class GameBoard : MonoBehaviour
 {
     public TileGrid TileGrid;
 
-    #region Combinations
+    #region Combination functions
     public List<Combination> FindAllCombinations()
     {
         List<Combination> allCombinations = new List<Combination>();
