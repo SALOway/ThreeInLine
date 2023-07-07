@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using UnityEngine;
 using NUnit.Framework;
 
 namespace Tests
@@ -12,20 +13,23 @@ namespace Tests
         [SetUp]
         public void Setup()
         {
-            int[,] tileLayout = new int[,]
+            TileBaseType[,] tileLayout = new TileBaseType[,]
             {
-                { 2, 3, 5 },
-                { 2, 4, 3 },
-                { 3, 3, 3 },
-                { 5, 6, 2 },
+                { TileBaseType.Red,   TileBaseType.Green, TileBaseType.Blue },
+                { TileBaseType.Red,   TileBaseType.Blue,  TileBaseType.Green },
+                { TileBaseType.Green, TileBaseType.Green, TileBaseType.Green },
+                { TileBaseType.Blue,  TileBaseType.Red,   TileBaseType.Blue },
             };
-
-            Tile[,] tiles = TestingUtilites.CreateTiles(tileLayout);
             _gameBoard = TestingUtilites.CreateGameBoard();
-            _gameBoard.SetTiles(tiles);
+            _gameBoard.TileGrid = new TileGrid(tileLayout);
 
             #region Horizontal
-            Tile[] tilesInHorizontalCombination = { tiles[0, 1], tiles[1, 1], tiles[2, 1] };
+            Tile[] tilesInHorizontalCombination = new Tile[] 
+            {
+                _gameBoard.TileGrid.GetTile(new Vector3Int(0, 1, 0)), 
+                _gameBoard.TileGrid.GetTile(new Vector3Int(1, 1, 0)), 
+                _gameBoard.TileGrid.GetTile(new Vector3Int(2, 1, 0)),
+            };
             Combination expectedHorizontalCombination = new Combination(tilesInHorizontalCombination, CombinationType.Horizontal);
             _expectedHorizontalCombinations = new List<Combination>() { expectedHorizontalCombination };
             #endregion
@@ -59,8 +63,8 @@ namespace Tests
 
                 for (int j = 0; j < combination.Tiles.Count; j++)
                 {
-                    int expectedType = expectedCombination.Tiles[j].BaseType;
-                    int type = combination.Tiles[j].BaseType;
+                    TileBaseType expectedType = expectedCombination.Tiles[j].BaseType;
+                    TileBaseType type = combination.Tiles[j].BaseType;
                     Assert.AreEqual(expectedType, type, "Tile mismatch in horizontal combination at index " + j);
                 }
             }
@@ -84,8 +88,8 @@ namespace Tests
 
                 for (int j = 0; j < combination.Tiles.Count; j++)
                 {
-                    int expectedType = expectedCombination.Tiles[j].BaseType;
-                    int type = combination.Tiles[j].BaseType;
+                    TileBaseType expectedType = expectedCombination.Tiles[j].BaseType;
+                    TileBaseType type = combination.Tiles[j].BaseType;
                     Assert.AreEqual(expectedType, type, "Tile mismatch in vertical combination at index " + j);
                 }
             }

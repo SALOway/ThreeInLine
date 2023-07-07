@@ -6,34 +6,29 @@ namespace Tests
     public class GetTile
     {
         GameBoard _gameBoard;
-        Tile[,] _tiles;
         Vector3Int _tileGridPosition;
 
         [SetUp]
         public void Setup()
         {
-            int[,] tileLayout = new int[,]
+            TileBaseType[,] tileLayout = new TileBaseType[,]
             {
-                { 1, 2, 3 },
-                { 4, 5, 6 },
-                { 7, 8, 9 },
-                { 10, 11, 12 },
+                { TileBaseType.Orange,  TileBaseType.Red,   TileBaseType.Yellow },
+                { TileBaseType.Magenta, TileBaseType.Black, TileBaseType.Blue },
+                { TileBaseType.Gray,    TileBaseType.Green, TileBaseType.White },
             };
-            _tiles = TestingUtilites.CreateTiles(tileLayout);
             _gameBoard = TestingUtilites.CreateGameBoard();
-            _gameBoard.SetTiles(_tiles);
+            _gameBoard.TileGrid = new TileGrid(tileLayout);
             _tileGridPosition = new Vector3Int(2, 1, 0);
         }
 
         [Test]
         public void GetTileAt_WhenCalled_GetTileAtGivenPositionInGrid()
         {
-            Tile expectedTile = _tiles[_tileGridPosition.x, _tileGridPosition.y];
-            Tile actualTile = _gameBoard.GetTile(_tileGridPosition);
+            TileBaseType expectedTileBaseType = TileBaseType.Blue;
+            TileBaseType actualTileBaseType = _gameBoard.TileGrid.GetTile(_tileGridPosition).BaseType;
 
-            Assert.AreEqual(expectedTile.BaseType, actualTile.BaseType, $"Tyle types aren't equal. {expectedTile.BaseType} != {actualTile.BaseType}");
-
-            Assert.AreEqual(expectedTile, actualTile, "Tiles aren't the same objects");
+            Assert.AreEqual(expectedTileBaseType, actualTileBaseType, $"Tyle types aren't equal. {expectedTileBaseType} != {actualTileBaseType}");
         }
     }
 }
