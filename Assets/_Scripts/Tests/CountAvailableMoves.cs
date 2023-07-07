@@ -57,7 +57,7 @@ namespace Tests
         [Test]
         public void CountAvailableMoves_WhenCalled_ReturnCountOfPlayerMoves()
         {
-            List<Tile> tilesWithMoves = _gameBoard.FindAllTilesWithAvailableMoves();
+            List<Tile> tilesWithMoves = _gameBoard.FindAllTilesWithMove();
 
             Assert.NotZero(tilesWithMoves.Count, "There is no moves");
 

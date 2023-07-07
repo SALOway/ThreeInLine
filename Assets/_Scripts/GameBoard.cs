@@ -116,7 +116,7 @@ public class GameBoard : MonoBehaviour
     }
     #endregion
 
-    public List<Tile> FindAllTilesWithAvailableMoves()
+    public List<Tile> FindAllTilesWithMove()
     {
         HashSet<Tile> tilesWithMoves = new HashSet<Tile>();
 
