@@ -2,14 +2,10 @@
 
 public class Tile : MonoBehaviour
 {
-    public Vector3Int Position;
-    public TileBaseType BaseType { get; private set; }
+    [SerializeField] private TileBaseType _baseType;
 
-    public void Init(Vector3Int position, TileBaseType baseType)
-    {
-        Position = position;
-        BaseType = baseType;
-    }
+    public Vector3Int Position;
+    public TileBaseType BaseType => _baseType;
 }
 
 // Can be color or form
@@ -20,8 +16,6 @@ public enum TileBaseType
     Blue,
     Yellow,
     White,
-    Gray,
-    Black,
     Magenta,
     Orange
 }

@@ -13,19 +13,19 @@ namespace Tests
         {
             TileBaseType[,] tileLayout = new TileBaseType[,]
             {
-                { TileBaseType.Orange,  TileBaseType.Red,   TileBaseType.Yellow },
-                { TileBaseType.Magenta, TileBaseType.Black, TileBaseType.Blue },
-                { TileBaseType.Gray,    TileBaseType.Green, TileBaseType.White },
+                { TileBaseType.Orange,  TileBaseType.Red    },
+                { TileBaseType.Magenta, TileBaseType.Yellow },
+                { TileBaseType.Blue,    TileBaseType.Green  },
             };
             _gameBoard = TestingUtilites.CreateGameBoard();
             _gameBoard.TileGrid = new TileGrid(tileLayout);
-            _tileGridPosition = new Vector3Int(2, 1, 0);
+            _tileGridPosition = new Vector3Int(1, 1, 0);
         }
 
         [Test]
         public void GetTileAt_WhenCalled_GetTileAtGivenPositionInGrid()
         {
-            TileBaseType expectedTileBaseType = TileBaseType.Blue;
+            TileBaseType expectedTileBaseType = TileBaseType.Yellow;
             TileBaseType actualTileBaseType = _gameBoard.TileGrid.GetTile(_tileGridPosition).BaseType;
 
             Assert.AreEqual(expectedTileBaseType, actualTileBaseType, $"Tyle types aren't equal. {expectedTileBaseType} != {actualTileBaseType}");
