@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1294433020760925641}
   - component: {fileID: 3267098384150331068}
   m_Layer: 0
-  m_Name: Purple gem
+  m_Name: Magenta gem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -95,4 +95,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68cd5b7ea733edd4fa1af3a96412a956, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Type: 3
+  _baseType: 7
+  Position: {x: 0, y: 0, z: 0}
