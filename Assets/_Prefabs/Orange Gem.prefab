@@ -11,9 +11,6 @@ GameObject:
   - component: {fileID: 7766915266874555053}
   - component: {fileID: 7766915266874555052}
   - component: {fileID: 7906782318663365251}
-  - component: {fileID: -3057069633502317888}
-  - component: {fileID: 8237895078798990288}
-  - component: {fileID: -5196414445635808645}
   m_Layer: 0
   m_Name: Orange Gem
   m_TagString: Untagged
@@ -28,8 +25,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7766915266874555051}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -8.25, y: 2.25, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 2, y: 3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -98,41 +95,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68cd5b7ea733edd4fa1af3a96412a956, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _baseType: 8
-  Position: {x: 0, y: 0, z: 0}
---- !u!114 &-3057069633502317888
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7766915266874555051}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 12263fbd0f1fd064c81f89dfd6342a1d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &8237895078798990288
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7766915266874555051}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ad9f506e102453148b7a6b996cdd911f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &-5196414445635808645
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7766915266874555051}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 57785f38d43cc77409bd7bee2467aa08, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  _baseType: 6
+  Position: {x: 2, y: 3, z: 0}
