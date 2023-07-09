@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 public class Combination
 {
@@ -17,20 +18,7 @@ public class Combination
         {
             bool typesEqual = Type == other.Type;
             bool countEqual = Tiles.Count == other.Tiles.Count;
-            bool tilesEqual = true;
-            if (countEqual)
-            {
-                for (int i = 0; i < other.Tiles.Count; i++)
-                {
-                    bool hasEqualTile = false;
-                    for (int j = 0; j < other.Tiles.Count; j++)
-                    {
-                        hasEqualTile = ReferenceEquals(Tiles[i], other.Tiles[i]);
-                        if (hasEqualTile) break;
-                    }
-                    if (!hasEqualTile) tilesEqual = false;
-                }
-            }
+            bool tilesEqual = Tiles.SequenceEqual(other.Tiles);
             return typesEqual && countEqual && tilesEqual;
         }
 
@@ -43,19 +31,6 @@ public class Combination
     public static bool operator !=(Combination left, Combination right)
     {
         return !Equals(left, right);
-    }
-    public override int GetHashCode()
-    {
-        unchecked
-        {
-            int hash = 17;
-            hash = hash * 31 + Type.GetHashCode();
-            foreach (var tile in Tiles)
-            {
-                hash = hash * 31 + tile.GetHashCode();
-            }
-            return hash;
-        }
     }
 }
 
