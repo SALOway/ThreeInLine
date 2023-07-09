@@ -1,9 +1,32 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Grid))]
 public class GameBoard : MonoBehaviour
 {
     public TileGrid TileGrid;
+    private Grid _grid;
+
+    private void Awake()
+    {
+        _grid = GetComponent<Grid>();
+    }
+
+    public void CreateTileGrid(int height, int width)
+    {
+        if (TileGrid != null) ClearTileGrid();
+        TileGrid = new TileGrid(_grid, height, width);
+    }
+    public void CreateTileGrid(TileBaseType[,] tileLayout)
+    {
+        if (TileGrid != null) ClearTileGrid();
+        TileGrid = new TileGrid(_grid, tileLayout);
+    }
+    private void ClearTileGrid()
+    {
+        TileGrid.Clear();
+        TileGrid = null;
+    }
 
     #region Combination functions
     public List<Combination> FindAllCombinations()
