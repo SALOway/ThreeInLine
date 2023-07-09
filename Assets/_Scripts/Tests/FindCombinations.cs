@@ -21,7 +21,7 @@ namespace Tests
                 { TileBaseType.Blue,  TileBaseType.Red,   TileBaseType.Blue },
             };
             _gameBoard = TestingUtilites.CreateGameBoard();
-            _gameBoard.TileGrid = new TileGrid(tileLayout);
+            _gameBoard.CreateTileGrid(tileLayout);
 
             #region Horizontal
             Tile[] tilesInHorizontalCombination = new Tile[] 

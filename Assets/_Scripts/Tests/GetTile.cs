@@ -18,7 +18,7 @@ namespace Tests
                 { TileBaseType.Blue,    TileBaseType.Green  },
             };
             _gameBoard = TestingUtilites.CreateGameBoard();
-            _gameBoard.TileGrid = new TileGrid(tileLayout);
+            _gameBoard.CreateTileGrid(tileLayout);
             _tileGridPosition = new Vector3Int(1, 1, 0);
         }
 

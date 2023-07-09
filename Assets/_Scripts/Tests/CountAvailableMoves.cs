@@ -35,7 +35,7 @@ namespace Tests
             };
 
             _gameBoard = TestingUtilites.CreateGameBoard();
-            _gameBoard.TileGrid = new TileGrid(tileLayout);
+            _gameBoard.CreateTileGrid(tileLayout);
 
             _expectedTilesWithMoves = new List<Tile>()
             {
