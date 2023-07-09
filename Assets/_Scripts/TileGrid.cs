@@ -8,6 +8,24 @@ public class TileGrid
     public int Width => _tiles.GetLength(0);
     public int Height => _tiles.GetLength(1);
 
+    public TileGrid(int height, int width)
+    {
+        _tiles = new Tile[width, height];
+        for (int y = 0; y < height; y++)
+        {
+            for (int x = 0; x < width; x++)
+            {
+                System.Array values = System.Enum.GetValues(typeof(TileBaseType));
+                TileBaseType randomTileBaseType = (TileBaseType)values.GetValue(Random.Range(0, values.GetLength(0)));
+                Tile tile = TileGenerator.CreateTile(randomTileBaseType);
+                Vector3Int tilePosition = new Vector3Int(x, y, 0);
+                tile.Position = tilePosition;
+                _tiles[x, y] = tile;
+
+                tile.transform.position = tilePosition;
+            }
+        }
+    }
     public TileGrid(TileBaseType[,] tileLayout)
     {
         int height = tileLayout.GetLength(0);
@@ -17,11 +35,10 @@ public class TileGrid
         {
             for (int x = 0; x < width; x++)
             {
-                GameObject tileObject = new GameObject();
-                Tile tile = tileObject.AddComponent<Tile>();
-                Vector3Int tilePosition = new Vector3Int(x, y, 0);
                 TileBaseType tileBaseType = tileLayout[height - y - 1, x];
-                tile.Init(tilePosition, tileBaseType);
+                Tile tile = TileGenerator.CreateTile(tileBaseType);
+                Vector3Int tilePosition = new Vector3Int(x, y, 0);
+                tile.Position = tilePosition;
                 _tiles[x, y] = tile;
             }
         }
