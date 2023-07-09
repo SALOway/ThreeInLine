@@ -2,9 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-/// <summary>
-/// Class responsible for controlling the game process
-/// </summary>
 public class GameController : MonoBehaviour
 {
     [SerializeField] GameBoard _board;
@@ -16,14 +13,18 @@ public class GameController : MonoBehaviour
 
     public void InitializeGame()
     {
-        _board.TileGrid = new TileGrid(5, 6);
+        int gridWidth = 5;
+        int gridHeigth = 6;
+
+        _board.CreateTileGrid(gridWidth, gridHeigth);
 
         List<Combination> allCombinations = _board.FindAllCombinations();
         List<Tile> allTilesWithMove = _board.FindAllTilesWithMove();
 
         while (allCombinations.Count > 0 || allTilesWithMove.Count == 0)
         {
-            _board.TileGrid = new TileGrid(5, 6);
+
+            _board.CreateTileGrid(gridWidth, gridHeigth);
 
             allCombinations = _board.FindAllCombinations();
             allTilesWithMove = _board.FindAllTilesWithMove();
