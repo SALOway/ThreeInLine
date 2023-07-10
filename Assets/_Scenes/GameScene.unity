@@ -260,6 +260,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _board: {fileID: 559852426}
+  _mainCamera: {fileID: 822071247}
 --- !u!4 &201954378
 Transform:
   m_ObjectHideFlags: 0
@@ -542,6 +543,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12263fbd0f1fd064c81f89dfd6342a1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Grid: {fileID: 0}
 --- !u!1001 &675837598
 PrefabInstance:
   m_ObjectHideFlags: 0
