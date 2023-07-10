@@ -5,22 +5,22 @@ using UnityEngine;
 public class GameBoard : MonoBehaviour
 {
     public TileGrid TileGrid;
-    private Grid _grid;
+    public Grid Grid;
 
     private void Awake()
     {
-        _grid = GetComponent<Grid>();
+        Grid = GetComponent<Grid>();
     }
 
     public void CreateTileGrid(int height, int width)
     {
         if (TileGrid != null) ClearTileGrid();
-        TileGrid = new TileGrid(_grid, height, width);
+        TileGrid = new TileGrid(Grid, height, width);
     }
     public void CreateTileGrid(TileBaseType[,] tileLayout)
     {
         if (TileGrid != null) ClearTileGrid();
-        TileGrid = new TileGrid(_grid, tileLayout);
+        TileGrid = new TileGrid(Grid, tileLayout);
     }
     private void ClearTileGrid()
     {
